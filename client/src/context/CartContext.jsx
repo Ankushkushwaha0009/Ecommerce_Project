@@ -24,8 +24,6 @@ const CartProvider = ({ children }) => {
                  quantity : 1
             }  
          } , 
-
-
      ]
 */
 
