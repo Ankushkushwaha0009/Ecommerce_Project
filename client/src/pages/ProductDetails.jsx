@@ -55,6 +55,8 @@ const ProductDetails = () => {
     //     quantity , 
     // }
 
+    // console.log(product)  ; 
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
       <div className="grid md:grid-cols-2 gap-10">
@@ -160,7 +162,7 @@ const ProductDetails = () => {
           <div className="flex gap-4 mt-8">
             <button
               disabled={product.stock === 0}
-              onClick={() => addToCart(product)}
+              onClick={() => addToCart(product , quantity)}
               className={`flex-1 py-3 rounded-xl ${
                 product.stock === 0
                   ? "bg-gray-400 cursor-not-allowed text-white"
