@@ -4,28 +4,6 @@ export const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  /*
-     product = {
-       _id : 123
-        name :  "nike"; 
-        brand : "cotton" ;
-        price : 3773
-     }
-
-     cart = [
-
-            {
-                product = {
-                    _id : 123
-                    name :  "nike"; 
-                    brand : "cotton" ;
-                    price : 3773 
-                } , 
-                 quantity : 1
-            }  
-         } , 
-     ]
-*/
 
   const addToCart = (product) => {
     setCart((prevCart) => {
