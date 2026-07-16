@@ -1,0 +1,14 @@
+const mongoose = require("mongoose");
+
+mongoose
+  .connect(
+    "mongodb://ankush1122:ankush1122@ac-b4jgc5k-shard-00-00.vmhehqc.mongodb.net:27017,ac-b4jgc5k-shard-00-01.vmhehqc.mongodb.net:27017,ac-b4jgc5k-shard-00-02.vmhehqc.mongodb.net:27017/Ecommerce?ssl=true&replicaSet=atlas-g34qsq-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then(() => {
+    console.log("✅ Connected Successfully");
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error("❌ Error:", err);
+    process.exit(1);
+  });
