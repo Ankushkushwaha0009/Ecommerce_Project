@@ -96,6 +96,10 @@ const CartProvider = ({ children }) => {
     return sum + item.quantity * item.product.price;
   }, 0);
 
+  const totalItems = cart.reduce((sum, item) => {
+    return sum + item.quantity;
+  }, 0);
+
   useEffect(() => {
     console.log(cart);
   }, [cart]);
