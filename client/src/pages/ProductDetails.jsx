@@ -7,12 +7,12 @@ import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
 const ProductDetails = () => {
+
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedmImage] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
-
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
@@ -195,8 +195,4 @@ export default ProductDetails;
    }
 ]
 
-
-
-
 */
-

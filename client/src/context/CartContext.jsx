@@ -5,9 +5,9 @@ export const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  const addToCart = (product , quantity = 1) => {
+  const addToCart = (product, quantity = 1) => {
     setCart((prevCart) => {
-      
+
       // check if product is exist or not .....
       const existingItem = prevCart.find((item) => {
         return item.product._id === product._id;
@@ -27,7 +27,7 @@ const CartProvider = ({ children }) => {
         ...prevCart,
         {
           product,
-          quantity
+          quantity,
         },
       ];
     });
@@ -35,11 +35,21 @@ const CartProvider = ({ children }) => {
 
   const increaseQuantity = (productId) => {
     setCart((prevCart) => {
-      prevCart.map((item) =>
-        item.product.id === productId
+      return prevCart.map((item) =>
+        item.product._id === productId
           ? { ...item, quantity: item.quantity + 1 }
           : item,
       );
+    });
+  };
+
+  const decreaseQuantity = (productId) => {
+    setCart((prevCart) => {
+      return prevCart.map((item) => {
+        return item.product._id === productId
+          ? { ...item, quantity: item.quantity - 1}
+          : item;
+      });
     });
   };
 
@@ -48,7 +58,7 @@ const CartProvider = ({ children }) => {
   }, [cart]);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart ,increaseQuantity }}>
+    <CartContext.Provider value={{ cart, addToCart, increaseQuantity }}>
       {children}
     </CartContext.Provider>
   );
