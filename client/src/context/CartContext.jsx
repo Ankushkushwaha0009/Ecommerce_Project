@@ -7,7 +7,6 @@ const CartProvider = ({ children }) => {
 
   const addToCart = (product, quantity = 1) => {
     setCart((prevCart) => {
-
       // check if product is exist or not .....
       const existingItem = prevCart.find((item) => {
         return item.product._id === product._id;
@@ -47,10 +46,18 @@ const CartProvider = ({ children }) => {
     setCart((prevCart) => {
       return prevCart.map((item) => {
         return item.product._id === productId
-          ? { ...item, quantity: item.quantity - 1}
+          ? { ...item, quantity: item.quantity - 1 }
           : item;
       });
     });
+  };
+
+  const removeCart = (productId) => {
+    setCart((prevCart) => {
+        return prevCart.filter((item) => {
+          return item.product._id !== productId;
+        });
+      });
   };
 
   useEffect(() => {
