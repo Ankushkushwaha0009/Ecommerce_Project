@@ -74,24 +74,6 @@ const CartProvider = ({ children }) => {
     });
   };
 
-  // calculate the total price
-
-  //   [
-  //   {
-  //     product:{
-  //       price:8999
-  //     },
-  //     quantity:2
-  //   },
-
-  //   {
-  //     product:{
-  //       price:4999
-  //     },
-  //     quantity:3
-  //   }
-  // ]
-
   const totalPrice = cart.reduce((sum, item) => {
     return sum + item.quantity * item.product.price;
   }, 0);
