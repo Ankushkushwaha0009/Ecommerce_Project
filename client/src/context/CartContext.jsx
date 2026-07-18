@@ -47,7 +47,7 @@ const CartProvider = ({ children }) => {
       const checkItemExist = prevCart.find((item) => {
         return item.product._id === productId;
       });
-      
+
       if (!checkItemExist) return prevCart;
 
       if (checkItemExist.quantity > 1) {
@@ -63,7 +63,6 @@ const CartProvider = ({ children }) => {
           return item.product._id !== productId;
         });
       }
-
     });
   };
 
@@ -74,6 +73,28 @@ const CartProvider = ({ children }) => {
       });
     });
   };
+
+  // calculate the total price
+
+  //   [
+  //   {
+  //     product:{
+  //       price:8999
+  //     },
+  //     quantity:2
+  //   },
+
+  //   {
+  //     product:{
+  //       price:4999
+  //     },
+  //     quantity:3
+  //   }
+  // ]
+
+  const totalPrice = cart.reduce((sum, item) => {
+    return sum + item.quantity * item.product.price;
+  }, 0);
 
   useEffect(() => {
     console.log(cart);
