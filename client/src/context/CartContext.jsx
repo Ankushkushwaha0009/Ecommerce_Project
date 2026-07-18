@@ -44,20 +44,35 @@ const CartProvider = ({ children }) => {
 
   const decreaseQuantity = (productId) => {
     setCart((prevCart) => {
-      return prevCart.map((item) => {
-        return item.product._id === productId
-          ? { ...item, quantity: item.quantity - 1 }
-          : item;
+      const checkItemExist = prevCart.find((item) => {
+        return item.product._id === productId;
       });
+      
+      if (!checkItemExist) return prevCart;
+
+      if (checkItemExist.quantity > 1) {
+        return prevCart.map((item) => {
+          return item.product._id == productId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item;
+        });
+      }
+
+      if (checkItemExist.quantity == 1) {
+        return prevCart.filter((item) => {
+          return item.product._id !== productId;
+        });
+      }
+
     });
   };
 
   const removeCart = (productId) => {
     setCart((prevCart) => {
-        return prevCart.filter((item) => {
-          return item.product._id !== productId;
-        });
+      return prevCart.filter((item) => {
+        return item.product._id !== productId;
       });
+    });
   };
 
   useEffect(() => {
