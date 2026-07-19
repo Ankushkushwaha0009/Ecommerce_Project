@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export const CartContext = createContext();
 
@@ -7,7 +8,7 @@ const CartProvider = ({ children }) => {
 
   const addToCart = (product, quantity = 1) => {
     setCart((prevCart) => {
-
+      
       // check if product is exist or not ..........
       const existingItem = prevCart.find((item) => {
         return item.product._id === product._id;
@@ -21,6 +22,9 @@ const CartProvider = ({ children }) => {
             : item,
         );
       }
+
+      // New product
+      toast.success(`${product.name} added to cart`);
 
       // otherwsise add new product
       return [
@@ -45,7 +49,6 @@ const CartProvider = ({ children }) => {
 
   const decreaseQuantity = (productId) => {
     setCart((prevCart) => {
-
       const checkItemExist = prevCart.find((item) => {
         return item.product._id === productId;
       });
@@ -89,7 +92,17 @@ const CartProvider = ({ children }) => {
   }, [cart]);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, increaseQuantity , decreaseQuantity , removeCart , totalItems , totalPrice}}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        increaseQuantity,
+        decreaseQuantity,
+        removeCart,
+        totalItems,
+        totalPrice,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
