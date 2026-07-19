@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const { totalItems } = useContext(CartContext);
 
   return (
@@ -41,22 +39,25 @@ function Navbar() {
             Register
           </Link>
 
-          <Link to="/cart" className="realtive text-2xl">
+          <Link to="/cart" className="relative text-2xl">
             🛒
+
             {totalItems > 0 && (
               <span
-                className="absolute
-                -top-2
-                -right-3
-                bg-red-500
-                text-white
-                text-xs
-                rounded-full
-                w-5
-                h-5
-                flex
-                items-center
-                justify-center"
+                className="
+                  absolute
+                  -top-2
+                  -right-3
+                  bg-red-500
+                  text-white
+                  text-xs
+                  rounded-full
+                  w-5
+                  h-5
+                  flex
+                  items-center
+                  justify-center
+                "
               >
                 {totalItems}
               </span>
@@ -64,13 +65,40 @@ function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Hamburger */}
-        <button
-          className="md:hidden text-3xl"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
+        {/* Mobile Right Side */}
+        <div className="md:hidden flex items-center gap-4">
+          <Link to="/cart" className="relative text-2xl">
+            🛒
+
+            {totalItems > 0 && (
+              <span
+                className="
+                  absolute
+                  -top-2
+                  -right-3
+                  bg-red-500
+                  text-white
+                  text-xs
+                  rounded-full
+                  w-5
+                  h-5
+                  flex
+                  items-center
+                  justify-center
+                "
+              >
+                {totalItems}
+              </span>
+            )}
+          </Link>
+
+          <button
+            className="text-3xl"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            ☰
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -80,11 +108,17 @@ function Navbar() {
             Home
           </Link>
 
-          <Link to="/category/jewellery" onClick={() => setMenuOpen(false)}>
+          <Link
+            to="/category/jewellery"
+            onClick={() => setMenuOpen(false)}
+          >
             Jewellery
           </Link>
 
-          <Link to="/category/clothes" onClick={() => setMenuOpen(false)}>
+          <Link
+            to="/category/clothes"
+            onClick={() => setMenuOpen(false)}
+          >
             Clothes
           </Link>
 
@@ -94,10 +128,6 @@ function Navbar() {
 
           <Link to="/register" onClick={() => setMenuOpen(false)}>
             Register
-          </Link>
-
-          <Link to="/cart" onClick={() => setMenuOpen(false)}>
-            🛒 Cart ({totalItems})
           </Link>
         </div>
       )}
