@@ -9,10 +9,10 @@ const CartCard = ({ item }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-md p-5 mb-5">
-      <div className="flex gap-6">
+      <div className="flex flex-col md:flex-row gap-6">
 
         {/* Product Image */}
-        <div>
+        <div className="flex justify-center md:justify-start">
           <img
             className="w-40 h-40 object-cover rounded-lg border"
             src={product.image}
@@ -21,7 +21,7 @@ const CartCard = ({ item }) => {
         </div>
 
         {/* Product Details */}
-        <div className="flex-1">
+        <div className="flex-1 text-center md:text-left">
 
           <h2 className="text-2xl font-bold">
             {product.name}
@@ -32,11 +32,11 @@ const CartCard = ({ item }) => {
           </p>
 
           <h3 className="text-2xl font-semibold text-green-600 mt-4">
-            ₹{product.price * item.quantity}
+            ₹{product.price * quantity}
           </h3>
 
           {/* Quantity */}
-          <div className="flex items-center gap-3 mt-5">
+          <div className="flex justify-center md:justify-start items-center gap-3 mt-5">
 
             <button
               onClick={() => decreaseQuantity(product._id)}
