@@ -8,7 +8,6 @@ const CartProvider = ({ children }) => {
 
   const addToCart = (product, quantity = 1) => {
     setCart((prevCart) => {
-      
       // check if product is exist or not ..........
       const existingItem = prevCart.find((item) => {
         return item.product._id === product._id;
@@ -16,6 +15,7 @@ const CartProvider = ({ children }) => {
 
       // product already exist...
       if (existingItem) {
+        toast.success(`${product.name} quantity updated`);
         return prevCart.map((item) =>
           item.product._id === product._id
             ? { ...item, quantity: item.quantity + quantity }
