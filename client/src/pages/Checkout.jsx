@@ -1,9 +1,18 @@
-import React from 'react'
+import React from "react";
+import ShippingForm from "../components/ShippingForm";
+import OrderSummary from "../components/OrderSummary";
 
 const Checkout = () => {
   return (
-    <div>Checkout</div>
-  )
-}
+    <div className="flex gap-6">
+      <div>
+        <ShippingForm />
+      </div>
+      <div>
+        <OrderSummary />
+      </div>
+    </div>
+  );
+};
 
-export default Checkout
+export default Checkout;
