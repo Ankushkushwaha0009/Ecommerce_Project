@@ -1,19 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-const ShippingForm = () => {
-  const [shippingData, setShippingData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-    country: "",
-  });
-
-  // Handle all input changes
+const ShippingForm = ({ shippingData, setShippingData }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -23,19 +10,13 @@ const ShippingForm = () => {
     }));
   };
 
-  // Handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(shippingData);
-  };
-
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
       <h2 className="text-2xl font-bold mb-6">
         Shipping Address
       </h2>
 
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           {/* First Name */}
