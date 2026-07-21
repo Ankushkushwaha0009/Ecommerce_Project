@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { Link } from "react-router-dom";
 
 const OrderSummary = () => {
-  
   const { cart, totalItems, totalPrice } = useContext(CartContext);
 
   return (
@@ -19,9 +19,12 @@ const OrderSummary = () => {
         <span>₹{totalPrice}</span>
       </div>
 
-      <button className="w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800">
+      <Link
+        to="/checkout"
+        className="block w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 text-center"
+      >
         Proceed To Checkout
-      </button>
+      </Link>
     </div>
   );
 };
