@@ -6,9 +6,9 @@ import toast from "react-hot-toast";
 const OrderSummary = ({ shippingData }) => {
   const { cart, totalItems, totalPrice } = useContext(CartContext);
 
-  const handlePlaceOrder = () => {
-    console.log(shippingData);
+  console.log(shippingData);
 
+  const handlePlaceOrder = () => {
     const requiredFields = [
       "firstName",
       "lastName",
@@ -39,14 +39,17 @@ const OrderSummary = ({ shippingData }) => {
         return;
       }
     }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(shippingData.email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    console.log("Validation Passed");
   };
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!emailRegex.test(shippingData.email)) {
-    toast.error("Please enter a valid email address...");
-    return;
-  }
 
   return (
     <div className="mt-10 border rounded-xl p-6 shadow">
