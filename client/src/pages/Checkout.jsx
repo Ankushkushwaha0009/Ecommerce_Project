@@ -5,7 +5,6 @@ import ShippingForm from "../components/ShippingForm";
 import OrderSummary from "../components/OrderSummary";
 
 const Checkout = () => {
-
   const { cart } = useContext(CartContext);
 
   const [shippingData, setShippingData] = useState({
@@ -30,7 +29,7 @@ const Checkout = () => {
       </div>
 
       <div className="w-full md:w-80">
-        <OrderSummary shippingData={shippingData}/>
+        <OrderSummary isCheckout={true} shippingData={shippingData} />
       </div>
     </div>
   );

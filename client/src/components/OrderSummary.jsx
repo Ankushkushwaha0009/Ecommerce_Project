@@ -3,10 +3,11 @@ import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const OrderSummary = ({ shippingData }) => {
+const OrderSummary = ({ shippingData, isCheckout }) => {
+
   const { cart, totalItems, totalPrice } = useContext(CartContext);
 
-  console.log(shippingData);
+  console.log("OrderSummary Props:", shippingData);
 
   const handlePlaceOrder = () => {
     const requiredFields = [
@@ -34,7 +35,7 @@ const OrderSummary = ({ shippingData }) => {
     };
 
     for (let i = 0; i < requiredFields.length; i++) {
-      if (!shippingData[requiredFields[i]].trim()) {
+      if (!shippingData[requiredFields[i]]?.trim()) {
         toast.error(`${fieldNames[requiredFields[i]]} is required`);
         return;
       }
@@ -65,12 +66,21 @@ const OrderSummary = ({ shippingData }) => {
         <span>₹{totalPrice}</span>
       </div>
 
-      <button
-        onClick={handlePlaceOrder}
-        className="w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800"
-      >
-        Place Order
-      </button>
+      {isCheckout ? (
+        <button
+          onClick={handlePlaceOrder}
+          className="w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800"
+        >
+          Place Order
+        </button>
+      ) : (
+        <Link
+          to="/checkout"
+          className="block w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 text-center"
+        >
+          Proceed To Checkout
+        </Link>
+      )}
     </div>
   );
 };
