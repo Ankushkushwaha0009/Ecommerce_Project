@@ -7,7 +7,7 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
 
   const { cart, totalItems, totalPrice } = useContext(CartContext);
 
-  console.log("OrderSummary Props:", shippingData);
+  console.log("OrderSummary:", shippingData);
 
   const handlePlaceOrder = () => {
     const requiredFields = [

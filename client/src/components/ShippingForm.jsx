@@ -2,7 +2,10 @@ import React from "react";
 
 const ShippingForm = ({ shippingData, setShippingData }) => {
   const handleChange = (e) => {
+    
     const { name, value } = e.target;
+
+    console.log("ShippingForm :" , shippingData) ;
 
     setShippingData((prevData) => ({
       ...prevData,
