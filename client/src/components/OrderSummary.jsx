@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const OrderSummary = ({ shippingData, isCheckout }) => {
-
   const { cart, totalItems, totalPrice } = useContext(CartContext);
 
   console.log("OrderSummary:", shippingData);
@@ -41,7 +40,6 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
       }
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(shippingData.email)) {
@@ -49,9 +47,17 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
       return;
     }
 
-    const phoneRegex  = /^[0-9]{10}$/ ; 
-    if(!phoneRegex.test(shippingData.phone)) {
-       toast.error("Please enter a valid 10 digit phone number") ; 
+    const phoneRegex = /^[0-9]{10}$/;
+
+    if (!phoneRegex.test(shippingData.phone)) {
+      toast.error("Please enter a valid 10 digit phone number");
+    }
+
+    const pincodeRegex = /^[0-9]{6}$/;
+
+    if (!pincodeRegex.test(shippingData.pincode)) {
+      toast.error("Please enter a valid 6 digit pincode");
+      return;
     }
 
     console.log("Validation Passed");
