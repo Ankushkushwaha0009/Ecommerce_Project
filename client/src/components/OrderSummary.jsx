@@ -49,6 +49,11 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
       return;
     }
 
+    const phoneRegex  = /^[0-9]{10}$/ ; 
+    if(!phoneRegex.test(shippingData.phone)) {
+       toast.error("Please enter a valid 10 digit phone number") ; 
+    }
+
     console.log("Validation Passed");
   };
 
