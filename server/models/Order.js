@@ -99,5 +99,6 @@ const ordersSchema = new mongoose.Schema(
       default : "Pending"
     },
   },
+  
   { timestamps: true },
 );
