@@ -102,3 +102,6 @@ const ordersSchema = new mongoose.Schema(
   
   { timestamps: true },
 );
+
+const Order = mongoose.model("Order", ordersSchema);
+module.exports = Order;

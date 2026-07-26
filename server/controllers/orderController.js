@@ -1,12 +1,31 @@
+const Order = require("../models/Order");
+
 const createOrder = async (req, res) => {
+
+  const { shippingAddress, items, totalPrice } = req.body;
+
+  if (!shippingAddress || !items || !totalPrice) {
+    return res.status(400).json({
+      success: false,
+      message: "Please provide all required fields..",
+    });
+  }
+
   try {
-    console.log(req.body);
-    res.status(200).json({
+    const order = new Order({
+      user: req.user.id,
+      shippingAddress,
+      items,
+      totalPrice,
+    });
+    await order.save();
+    return res.status(201).json({
       success: true,
-      message: "Order route is working",
+      message: "Order created successfully",
+      order,
     });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: err.message,
     });
