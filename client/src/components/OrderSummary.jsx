@@ -8,7 +8,7 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
 
   console.log("OrderSummary:", shippingData);
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     const requiredFields = [
       "firstName",
       "lastName",
@@ -60,7 +60,35 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
       return;
     }
 
-    console.log("Validation Passed");
+    const orderItems = cart.map((item) => ({
+      product: item.product._id,
+      quantity: item.quantity,
+      price: item.product.price,
+    }));
+
+    const response = await fetch("http://localhost:5000/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        shippingAddress: shippingData,
+        items: orderItems,
+        totalPrice,
+      }),
+    });
+
+    const data = await response.json();
+    
+    if (data.success) {
+      toast.success(data.message);
+    } else {
+      toast.error(data.message);
+    }
+
+    // console.log(orderItems);
+    // console.log("Validation Passed");
   };
 
   return (

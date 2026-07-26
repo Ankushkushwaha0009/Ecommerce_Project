@@ -5,7 +5,6 @@ const ordersSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
 
     shippingAddress: {

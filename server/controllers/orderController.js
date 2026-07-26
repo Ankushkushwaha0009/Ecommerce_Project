@@ -4,6 +4,8 @@ const createOrder = async (req, res) => {
 
   const { shippingAddress, items, totalPrice } = req.body;
 
+//   console.log(req.user) ;
+
   if (!shippingAddress || !items || !totalPrice) {
     return res.status(400).json({
       success: false,
@@ -13,7 +15,6 @@ const createOrder = async (req, res) => {
 
   try {
     const order = new Order({
-      user: req.user.id,
       shippingAddress,
       items,
       totalPrice,
