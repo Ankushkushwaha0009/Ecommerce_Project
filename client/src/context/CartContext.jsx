@@ -49,6 +49,7 @@ const CartProvider = ({ children }) => {
 
   const decreaseQuantity = (productId) => {
     setCart((prevCart) => {
+
       const checkItemExist = prevCart.find((item) => {
         return item.product._id === productId;
       });
@@ -87,6 +88,10 @@ const CartProvider = ({ children }) => {
     return sum + item.quantity;
   }, 0);
 
+  const clearCart  = () => {
+    setCart([]) ; 
+  }
+
   useEffect(() => {
     console.log(cart);
   }, [cart]);
@@ -101,6 +106,7 @@ const CartProvider = ({ children }) => {
         removeCart,
         totalItems,
         totalPrice,
+        clearCart
       }}
     >
       {children}

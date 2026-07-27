@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const OrderSummary = ({ shippingData, isCheckout }) => {
-  const { cart, totalItems, totalPrice } = useContext(CartContext);
+  const { cart, totalItems, totalPrice , clearCart } = useContext(CartContext);
 
   const navigate = useNavigate();
 
@@ -86,6 +86,7 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
 
     if (data.success) {
       toast.success(data.message);
+      clearCart() ; 
       navigate("/order-success");
     } else {
       toast.error(data.message);
