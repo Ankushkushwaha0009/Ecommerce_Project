@@ -2,9 +2,12 @@ import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const OrderSummary = ({ shippingData, isCheckout }) => {
   const { cart, totalItems, totalPrice } = useContext(CartContext);
+
+  const navigate = useNavigate();
 
   console.log("OrderSummary:", shippingData);
 
@@ -80,9 +83,10 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
     });
 
     const data = await response.json();
-    
+
     if (data.success) {
       toast.success(data.message);
+      navigate("/order-success");
     } else {
       toast.error(data.message);
     }
