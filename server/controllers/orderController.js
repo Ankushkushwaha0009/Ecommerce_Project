@@ -34,6 +34,7 @@ const createOrder = async (req, res) => {
 
 const getOrders = async (req, res) => {
   try {
+    //.populate("items.product");
     const orders = await Order.find().populate("items.product");
     return res.status(200).json({ success: true, orders });
   } catch (err) {
