@@ -19,7 +19,7 @@ const MyOrders = () => {
     fetchOrders();
   }, []);
 
-  const getPayementStatusColor = (status) => {
+  const getPaymentStatusColor = (status) => {
     switch (status) {
       case "Paid":
         return "bg-green-100 text-green-700";
@@ -73,13 +73,20 @@ const MyOrders = () => {
             <div className="text-right">
               <p className="font-bold text-xl">₹{order.totalPrice}</p>
 
-              <span className="inline-block bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm mt-2">
+              <span
+                className={`inline-block px-3 py-1 rounded-full text-sm mt-2 ${getPaymentStatusColor(
+                  order.paymentStatus,
+                )}`}
+              >
                 {order.paymentStatus}
               </span>
-
               <br />
 
-              <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm mt-2">
+              <span
+                className={`inline-block px-3 py-1 rounded-full text-sm mt-2 ${getOrderStatusColor(
+                  order.orderStatus || "Pending",
+                )}`}
+              >
                 {order.orderStatus || "Pending"}
               </span>
             </div>
@@ -112,6 +119,34 @@ const MyOrders = () => {
               </div>
             </div>
           ))}
+
+          <div className="mt-6 border-t pt-5">
+            <h3 className="text-lg font-semibold mb-3">📍 Shipping Address</h3>
+
+            <div className="bg-gray-50 rounded-lg p-4">
+              <p className="font-semibold text-lg">
+                {order.shippingAddress.firstName}{" "}
+                {order.shippingAddress.lastName}
+              </p>
+
+              <p className="text-gray-700 mt-2">
+                {order.shippingAddress.address}
+              </p>
+
+              <p className="text-gray-700">
+                {order.shippingAddress.city}, {order.shippingAddress.state} -{" "}
+                {order.shippingAddress.pincode}
+              </p>
+
+              <p className="text-gray-700">{order.shippingAddress.country}</p>
+
+              <div className="mt-4 space-y-1">
+                <p>📧 {order.shippingAddress.email}</p>
+
+                <p>📞 {order.shippingAddress.phone}</p>
+              </div>
+            </div>
+          </div>
         </div>
       ))}
     </div>
