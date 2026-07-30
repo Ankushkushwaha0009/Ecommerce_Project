@@ -32,6 +32,28 @@ const MyOrders = () => {
     }
   };
 
+  const getOrderStatusColor = (status) => {
+    switch (status) {
+      case "Delivered":
+        return "bg-green-100 text-green-700";
+
+      case "Shipped":
+        return "bg-blue-100 text-blue-700";
+
+      case "Processing":
+        return "bg-purple-100 text-purple-700";
+
+      case "Cancelled":
+        return "bg-red-100 text-red-700";
+
+      case "Pending":
+        return "bg-yellow-100 text-yellow-700";
+
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
       <h1 className="text-3xl font-bold mb-8">My Orders</h1>
