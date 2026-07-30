@@ -31,6 +31,10 @@ function Navbar() {
 
         {/* Desktop Right Side */}
         <div className="hidden md:flex gap-5 items-center">
+          <Link to="/orders" className="hover:text-yellow-400">
+            My Orders
+          </Link>
+
           <Link to="/login" className="hover:text-yellow-400">
             Login
           </Link>
@@ -120,6 +124,10 @@ function Navbar() {
             onClick={() => setMenuOpen(false)}
           >
             Clothes
+          </Link>
+
+          <Link to="/orders" onClick={() => setMenuOpen(false)}>
+            My Orders
           </Link>
 
           <Link to="/login" onClick={() => setMenuOpen(false)}>
