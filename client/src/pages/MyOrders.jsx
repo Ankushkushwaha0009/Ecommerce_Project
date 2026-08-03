@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -115,6 +117,18 @@ const MyOrders = () => {
                 <p className="mt-2">Quantity : {item.quantity}</p>
 
                 <p className="font-bold text-lg mt-2">₹{item.price}</p>
+
+                <div className="flex gap-3 mt-4">
+                  <button className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                    Buy Again
+                  </button>
+                  <button
+                    onClick={() => navigate(`/product/${item.product._id}`)}
+                    className="border border-black px-4 py-2 rounded-lg hover:bg-gray-100 transition"
+                  >
+                    View Product
+                  </button>
+                </div>
               </div>
             </div>
           ))}
@@ -124,7 +138,7 @@ const MyOrders = () => {
 
             <div className="bg-gray-50 rounded-lg p-4">
               <p className="font-semibold text-lg">
-                {order.shippingAddress.firstName}{" "}
+                {order.shippingAddress.firstName}
                 {order.shippingAddress.lastName}
               </p>
 
@@ -141,7 +155,6 @@ const MyOrders = () => {
 
               <div className="mt-4 space-y-1">
                 <p>📧 {order.shippingAddress.email}</p>
-
                 <p>📞 {order.shippingAddress.phone}</p>
               </div>
             </div>
