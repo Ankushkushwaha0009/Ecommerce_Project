@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -119,7 +121,10 @@ const MyOrders = () => {
                 <p className="font-bold text-lg mt-2">₹{item.price}</p>
 
                 <div className="flex gap-3 mt-4">
-                  <button className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                  <button
+                    onClick={() => addToCart(item.product)}
+                    className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+                  >
                     Buy Again
                   </button>
                   <button
