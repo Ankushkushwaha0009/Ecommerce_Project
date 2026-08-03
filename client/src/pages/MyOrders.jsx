@@ -57,9 +57,25 @@ const MyOrders = () => {
     }
   };
 
+  if (orders.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto py-20 text-center">
+        <h1 className="text-4xl font-bold mb-4">My Orders</h1>
+        <p className="text-gray-600 mb-8">You haven't placed any orders yet.</p>
+        <button
+          onClick={() => navigate("/")}
+          className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800"
+        >
+          Continue Shopping
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
       <h1 className="text-3xl font-bold mb-8">My Orders</h1>
+
       {orders.map((order, id) => (
         <div key={id} className="border rounded-lg p-6 mb-6 shadow">
           <div className="flex justify-between items-start mb-6">
