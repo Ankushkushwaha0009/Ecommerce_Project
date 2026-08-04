@@ -5,7 +5,15 @@ const jwt = require("jsonwebtoken");
 //register user
 const registerUser = async (req, res) => {
   try {
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill all fields",
+      });
+    }
+
     const { name, email, password } = req.body;
+
     const userExist = await User.findOne({ email });
     if (userExist) {
       return res.status(400).json({
@@ -29,7 +37,14 @@ const registerUser = async (req, res) => {
 //login user...
 const loginUser = async (req, res) => {
   try {
-    const { email , password} = req.body;
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill all fields",
+      });
+    }
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
@@ -39,7 +54,7 @@ const loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(400).jsn({
+      return res.status(400).json({
         message: "Invalid credentials",
       });
     }
@@ -65,7 +80,7 @@ const loginUser = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({
-      message: error.message,
+      message: err.message,
     });
   }
 };
