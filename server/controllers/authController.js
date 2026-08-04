@@ -26,9 +26,16 @@ const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
     });
-    res
-      .status(201)
-      .json({ success: true, message: "User registered successfully.." });
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully..",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -48,6 +55,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
+        success: false,
         message: "Invalid credentials ..",
       });
     }
