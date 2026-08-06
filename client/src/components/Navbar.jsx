@@ -1,10 +1,19 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalItems } = useContext(CartContext);
+
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   return (
     <nav className="bg-black text-white shadow-md">
@@ -31,17 +40,34 @@ function Navbar() {
 
         {/* Desktop Right Side */}
         <div className="hidden md:flex gap-5 items-center">
-          <Link to="/orders" className="hover:text-yellow-400">
-            My Orders
-          </Link>
+          {user ? (
+            <>
+              <span className="text-yellow-400 font-semibold">
+                Hello, {user.name}
+              </span>
 
-          <Link to="/login" className="hover:text-yellow-400">
-            Login
-          </Link>
+              <Link to="/orders" className="hover:text-yellow-400">
+                My Orders
+              </Link>
 
-          <Link to="/register" className="hover:text-yellow-400">
-            Register
-          </Link>
+              <button
+                onClick={handleLogout}
+                className="hover:text-red-400"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="hover:text-yellow-400">
+                Login
+              </Link>
+
+              <Link to="/register" className="hover:text-yellow-400">
+                Register
+              </Link>
+            </>
+          )}
 
           <Link to="/cart" className="relative text-2xl">
             🛒
@@ -126,17 +152,46 @@ function Navbar() {
             Clothes
           </Link>
 
-          <Link to="/orders" onClick={() => setMenuOpen(false)}>
-            My Orders
-          </Link>
+          {user ? (
+            <>
+              <span className="text-yellow-400">
+                Hello, {user.name}
+              </span>
 
-          <Link to="/login" onClick={() => setMenuOpen(false)}>
-            Login
-          </Link>
+              <Link
+                to="/orders"
+                onClick={() => setMenuOpen(false)}
+              >
+                My Orders
+              </Link>
 
-          <Link to="/register" onClick={() => setMenuOpen(false)}>
-            Register
-          </Link>
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setMenuOpen(false);
+                }}
+                className="text-left hover:text-red-400"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                onClick={() => setMenuOpen(false)}
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                onClick={() => setMenuOpen(false)}
+              >
+                Register
+              </Link>
+            </>
+          )}
         </div>
       )}
     </nav>
