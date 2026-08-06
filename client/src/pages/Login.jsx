@@ -32,8 +32,10 @@ const Login = () => {
       if (data.success) {
         //saving the token
         localStorage.setItem("token", data.token);
+        //const token = localStorage.getItem("token");
         //saved logged in user
         localStorage.setItem("user", JSON.stringify(data.user));
+        //const user = JSON.parse(localStorage.getItem("user"));
         toast.success("login successful");
         navigate("/");
       } else {
