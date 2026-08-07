@@ -7,10 +7,17 @@ const MyOrders = () => {
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
 
+  const token = localStorage.getItem("token");
+  console.log(token);
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/orders");
+        const response = await fetch("http://localhost:5000/api/orders", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
         if (data.success) {
           setOrders(data.orders);
