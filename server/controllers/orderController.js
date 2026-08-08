@@ -14,10 +14,12 @@ const createOrder = async (req, res) => {
 
   try {
     const order = new Order({
+      user : req.user._id , 
       shippingAddress,
       items,
       totalPrice,
     });
+
     await order.save();
     return res.status(201).json({
       success: true,
@@ -34,8 +36,15 @@ const createOrder = async (req, res) => {
 
 const getOrders = async (req, res) => {
   try {
+
+    // console.log("Logged in user:", req.user);
+    // console.log("Logged in user ID:", req.user._id);
+
+
     //.populate("items.product");
-    const orders = await Order.find().populate("items.product");
+    const orders = await Order.find({ user: req.user._id }).populate(
+      "items.product",
+    );
     return res.status(200).json({ success: true, orders });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
@@ -44,5 +53,5 @@ const getOrders = async (req, res) => {
 
 module.exports = {
   createOrder,
-  getOrders
+  getOrders,
 };
