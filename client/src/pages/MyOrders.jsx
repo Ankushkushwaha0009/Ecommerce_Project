@@ -8,7 +8,6 @@ const MyOrders = () => {
   const { addToCart } = useContext(CartContext);
 
   const token = localStorage.getItem("token");
-  console.log(token);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -18,7 +17,9 @@ const MyOrders = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
         const data = await response.json();
+
         if (data.success) {
           setOrders(data.orders);
         }
@@ -26,22 +27,30 @@ const MyOrders = () => {
         console.log(err);
       }
     };
-    fetchOrders();
-  }, []);
 
+    if (token) {
+      fetchOrders();
+    }
+  }, [token]);
+
+  // Payment status color
   const getPaymentStatusColor = (status) => {
     switch (status) {
       case "Paid":
         return "bg-green-100 text-green-800";
+
       case "Pending":
         return "bg-yellow-100 text-yellow-700";
+
       case "Failed":
         return "bg-red-100 text-red-700";
+
       default:
         return "bg-gray-100 text-gray-700";
     }
   };
 
+  // Order status color
   const getOrderStatusColor = (status) => {
     switch (status) {
       case "Delivered":
@@ -64,30 +73,49 @@ const MyOrders = () => {
     }
   };
 
+  // No orders
   if (orders.length === 0) {
     return (
-      <div className="max-w-4xl mx-auto py-20 text-center">
-        <h1 className="text-4xl font-bold mb-4">My Orders</h1>
-        <p className="text-gray-600 mb-8">You haven't placed any orders yet.</p>
-        <button
-          onClick={() => navigate("/")}
-          className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800"
-        >
-          Continue Shopping
-        </button>
+      <div className="min-h-[70vh] flex items-center justify-center px-5">
+        <div className="text-center">
+          <div className="text-6xl mb-5">📦</div>
+
+          <h1 className="text-3xl font-bold mb-3">My Orders</h1>
+
+          <p className="text-gray-500 mb-6">
+            You haven't placed any orders yet.
+          </p>
+
+          <button
+            onClick={() => navigate("/")}
+            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
+          >
+            Continue Shopping
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold mb-8">My Orders</h1>
+    <div className="max-w-6xl mx-auto px-5 py-10">
+      {/* Page Heading */}
+      <div className="mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold">My Orders</h1>
 
-      {orders.map((order, id) => (
-        <div key={id} className="border rounded-lg p-6 mb-6 shadow">
-          <div className="flex justify-between items-start mb-6">
+        <p className="text-gray-500 mt-2">Track and manage your orders</p>
+      </div>
+
+      {/* Orders */}
+      {orders.map((order) => (
+        <div
+          key={order._id}
+          className="border rounded-xl p-5 md:p-7 mb-7 shadow-sm bg-white"
+        >
+          {/* Order Header */}
+          <div className="flex flex-col md:flex-row justify-between gap-5 mb-6">
             <div>
-              <h2 className="text-lg font-bold">
+              <h2 className="text-lg md:text-xl font-bold">
                 Order #{order._id.slice(-6).toUpperCase()}
               </h2>
 
@@ -96,20 +124,21 @@ const MyOrders = () => {
               </p>
             </div>
 
-            <div className="text-right">
-              <p className="font-bold text-xl">₹{order.totalPrice}</p>
+            <div className="md:text-right">
+              <p className="font-bold text-2xl">₹{order.totalPrice}</p>
 
+              {/* Payment Status */}
               <span
                 className={`inline-block px-3 py-1 rounded-full text-sm mt-2 ${getPaymentStatusColor(
                   order.paymentStatus,
                 )}`}
               >
-                {order.paymentStatus}
+                Payment: {order.paymentStatus}
               </span>
-              <br />
 
+              {/* Order Status */}
               <span
-                className={`inline-block px-3 py-1 rounded-full text-sm mt-2 ${getOrderStatusColor(
+                className={`inline-block px-3 py-1 rounded-full text-sm mt-2 ml-2 ${getOrderStatusColor(
                   order.orderStatus || "Pending",
                 )}`}
               >
@@ -118,55 +147,73 @@ const MyOrders = () => {
             </div>
           </div>
 
-          <hr className="mb-5" />
-          {order.items.map((item) => (
-            <div
-              key={item._id}
-              className="flex gap-5 border rounded-lg p-4 mb-4"
-            >
-              <img
-                src={item.product.image}
-                alt={item.product.name}
-                className="w-28 h-28 object-cover rounded-lg"
-              />
+          <hr className="mb-6" />
 
-              <div className="flex-1">
-                <h2 className="text-lg font-semibold">{item.product.name}</h2>
+          {/* Products */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Ordered Items</h3>
 
-                <p className="text-gray-600">Brand : {item.product.brand}</p>
+            {order.items.map((item) => (
+              <div
+                key={item._id}
+                className="flex flex-col sm:flex-row gap-5 border rounded-lg p-4 mb-4"
+              >
+                {/* Product Image */}
+                <img
+                  src={item.product.image}
+                  alt={item.product.name}
+                  className="w-full sm:w-28 h-48 sm:h-28 object-cover rounded-lg"
+                />
 
-                <p className="text-gray-600">
-                  Category : {item.product.category}
-                </p>
+                {/* Product Details */}
+                <div className="flex-1">
+                  <h2 className="text-lg font-semibold">{item.product.name}</h2>
 
-                <p className="mt-2">Quantity : {item.quantity}</p>
+                  <p className="text-gray-600 mt-1">
+                    Brand: {item.product.brand}
+                  </p>
 
-                <p className="font-bold text-lg mt-2">₹{item.price}</p>
+                  <p className="text-gray-600">
+                    Category: {item.product.category}
+                  </p>
 
-                <div className="flex gap-3 mt-4">
-                  <button
-                    onClick={() => addToCart(item.product)}
-                    className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-                  >
-                    Buy Again
-                  </button>
-                  <button
-                    onClick={() => navigate(`/product/${item.product._id}`)}
-                    className="border border-black px-4 py-2 rounded-lg hover:bg-gray-100 transition"
-                  >
-                    View Product
-                  </button>
+                  <div className="flex flex-wrap gap-5 mt-2">
+                    <p>
+                      Quantity:{" "}
+                      <span className="font-semibold">{item.quantity}</span>
+                    </p>
+
+                    <p className="font-bold">₹{item.price}</p>
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="flex flex-wrap gap-3 mt-4">
+                    <button
+                      onClick={() => addToCart(item.product)}
+                      className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+                    >
+                      Buy Again
+                    </button>
+
+                    <button
+                      onClick={() => navigate(`/product/${item.product._id}`)}
+                      className="border border-black px-4 py-2 rounded-lg hover:bg-gray-100 transition"
+                    >
+                      View Product
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
-          <div className="mt-6 border-t pt-5">
-            <h3 className="text-lg font-semibold mb-3">📍 Shipping Address</h3>
+          {/* Shipping Address */}
+          <div className="mt-7 border-t pt-6">
+            <h3 className="text-lg font-semibold mb-4">📍 Shipping Address</h3>
 
-            <div className="bg-gray-50 rounded-lg p-4">
+            <div className="bg-gray-50 rounded-lg p-5">
               <p className="font-semibold text-lg">
-                {order.shippingAddress.firstName}
+                {order.shippingAddress.firstName}{" "}
                 {order.shippingAddress.lastName}
               </p>
 
@@ -181,8 +228,9 @@ const MyOrders = () => {
 
               <p className="text-gray-700">{order.shippingAddress.country}</p>
 
-              <div className="mt-4 space-y-1">
+              <div className="mt-4 space-y-1 text-gray-700">
                 <p>📧 {order.shippingAddress.email}</p>
+
                 <p>📞 {order.shippingAddress.phone}</p>
               </div>
             </div>
