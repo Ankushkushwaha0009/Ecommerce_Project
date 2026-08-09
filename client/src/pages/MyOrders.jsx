@@ -7,6 +7,8 @@ const MyOrders = () => {
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
 
+  console.log(orders) ; 
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -189,7 +191,7 @@ const MyOrders = () => {
                   {/* Buttons */}
                   <div className="flex flex-wrap gap-3 mt-4">
                     <button
-                      onClick={() => addToCart(item.product)}
+                      onClick={() => addToCart(item.product , item.quantity)}
                       className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
                     >
                       Buy Again
