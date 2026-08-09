@@ -1,14 +1,16 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
+import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalItems } = useContext(CartContext);
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  // const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const { user, setUser } = useContext(AuthContext);
 
-  console.log(user);
+  // console.log(user);
 
   const navigate = useNavigate();
 

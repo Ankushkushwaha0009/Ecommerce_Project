@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const navigate = useNavigate();
+
+  const { setUser } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,6 +40,7 @@ const Login = () => {
         //saved logged in user
         localStorage.setItem("user", JSON.stringify(data.user));
         //const user = JSON.parse(localStorage.getItem("user"));
+        setUser(data.user) ; 
         toast.success("login successful");
         navigate("/");
       } else {
