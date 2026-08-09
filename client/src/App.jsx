@@ -31,7 +31,14 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/order-success" element={<OrderSuccess />} />
+        <Route
+          path="/order-success"
+          element={
+            <ProtectedRoute>
+              <OrderSuccess />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/orders"
           element={

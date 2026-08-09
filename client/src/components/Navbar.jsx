@@ -6,12 +6,16 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalItems } = useContext(CartContext);
 
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+  console.log(user);
+
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    setUser(null);
     navigate("/login");
   };
 
@@ -50,10 +54,7 @@ function Navbar() {
                 My Orders
               </Link>
 
-              <button
-                onClick={handleLogout}
-                className="hover:text-red-400"
-              >
+              <button onClick={handleLogout} className="hover:text-red-400">
                 Logout
               </button>
             </>
@@ -71,7 +72,6 @@ function Navbar() {
 
           <Link to="/cart" className="relative text-2xl">
             🛒
-
             {totalItems > 0 && (
               <span
                 className="
@@ -99,7 +99,6 @@ function Navbar() {
         <div className="md:hidden flex items-center gap-4">
           <Link to="/cart" className="relative text-2xl">
             🛒
-
             {totalItems > 0 && (
               <span
                 className="
@@ -122,10 +121,7 @@ function Navbar() {
             )}
           </Link>
 
-          <button
-            className="text-3xl"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
+          <button className="text-3xl" onClick={() => setMenuOpen(!menuOpen)}>
             ☰
           </button>
         </div>
@@ -138,30 +134,19 @@ function Navbar() {
             Home
           </Link>
 
-          <Link
-            to="/category/jewellery"
-            onClick={() => setMenuOpen(false)}
-          >
+          <Link to="/category/jewellery" onClick={() => setMenuOpen(false)}>
             Jewellery
           </Link>
 
-          <Link
-            to="/category/clothes"
-            onClick={() => setMenuOpen(false)}
-          >
+          <Link to="/category/clothes" onClick={() => setMenuOpen(false)}>
             Clothes
           </Link>
 
           {user ? (
             <>
-              <span className="text-yellow-400">
-                Hello, {user.name}
-              </span>
+              <span className="text-yellow-400">Hello, {user.name}</span>
 
-              <Link
-                to="/orders"
-                onClick={() => setMenuOpen(false)}
-              >
+              <Link to="/orders" onClick={() => setMenuOpen(false)}>
                 My Orders
               </Link>
 
@@ -177,17 +162,11 @@ function Navbar() {
             </>
           ) : (
             <>
-              <Link
-                to="/login"
-                onClick={() => setMenuOpen(false)}
-              >
+              <Link to="/login" onClick={() => setMenuOpen(false)}>
                 Login
               </Link>
 
-              <Link
-                to="/register"
-                onClick={() => setMenuOpen(false)}
-              >
+              <Link to="/register" onClick={() => setMenuOpen(false)}>
                 Register
               </Link>
             </>
