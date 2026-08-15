@@ -5,11 +5,10 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const OrderSummary = ({ shippingData, isCheckout }) => {
-  const { cart, totalItems, totalPrice , clearCart } = useContext(CartContext);
+  const { cart, totalItems, totalPrice } = useContext(CartContext);
 
-  const navigate = useNavigate();
-
-  console.log("OrderSummary:", shippingData);
+  // const navigate = useNavigate();
+  // console.log("OrderSummary:", shippingData);
 
   const handlePlaceOrder = async () => {
     const requiredFields = [
@@ -54,6 +53,7 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
 
     if (!phoneRegex.test(shippingData.phone)) {
       toast.error("Please enter a valid 10 digit phone number");
+      return;
     }
 
     const pincodeRegex = /^[0-9]{6}$/;
@@ -69,29 +69,88 @@ const OrderSummary = ({ shippingData, isCheckout }) => {
       price: item.product.price,
     }));
 
-    const response = await fetch("http://localhost:5000/api/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+    // const response = await fetch("http://localhost:5000/api/orders", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //   },
+    //   body: JSON.stringify({
+    //     shippingAddress: shippingData,
+    //     items: orderItems,
+    //     totalPrice,
+    //   }),
+    // });
+
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+      "http://localhost:5000/api/payment/create-order",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/JSON",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ amount: totalPrice }),
       },
-      body: JSON.stringify({
-        shippingAddress: shippingData,
-        items: orderItems,
-        totalPrice,
-      }),
-    });
+    );
 
     const data = await response.json();
+    console.log("Razorpay Order : ", data);
 
     if (data.success) {
-      toast.success(data.message);
-      clearCart() ; 
-      navigate("/order-success");
+      const options = {
+        key: "rzp_test_TQAYZ2cKDWULHa",
+        amount: data.order.amount,
+        currency: data.order.currency,
+        name: "ShopEasy",
+        description: "E-Commerce Purchase",
+        order_id: data.order.id,
+        handler: async function (response) {
+          console.log("Payment Response :", response);
+          try {
+            const verifyReponse = await fetch(
+              "http://localhost:5000/api/payment/verify-payment",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              },
+            );
+            const verifyData = await verifyReponse.json();
+            console.log("verifcation Response : ", verifyData);
+            if (verifyData.success) {
+              toast.success("Payment verified successfully");
+            } else {
+              toast.error(verifyData.message);
+            }
+          } catch (err) {
+            console.log("Verification Error:", error);
+            toast.error("Payment verification failed");
+          }
+        },
+        prefill: {
+          name: `${shippingData.firstName} ${shippingData.lastName}`,
+          email: shippingData.email,
+          contact: shippingData.phone,
+        },
+        theme: {
+          color: "#000000",
+        },
+      };
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
     } else {
       toast.error(data.message);
     }
-
     // console.log(orderItems);
     // console.log("Validation Passed");
   };
