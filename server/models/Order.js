@@ -5,7 +5,7 @@ const ordersSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required : true
+      required: true,
     },
 
     shippingAddress: {
@@ -95,11 +95,19 @@ const ordersSchema = new mongoose.Schema(
 
     paymentStatus: {
       type: String,
-      enum: [ "Pending", "Paid", "Failed" ],
-      default : "Pending"
+      enum: ["Pending", "Paid", "Failed"],
+      default: "Pending",
+    },
+
+    razorpayOrderId: {
+      type: String,
+    },
+
+    razorpayPaymentId: {
+      type: String,
     },
   },
-  
+
   { timestamps: true },
 );
 

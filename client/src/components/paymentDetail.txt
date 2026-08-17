@@ -1,0 +1,9 @@
+Visa:
+4386 2894 0766 0153
+
+Mastercard:
+5267 3181 8797 5449
+
+CVV  => any 3 number
+Expiry => any future date
+OTP =>  number between 2 and 6
